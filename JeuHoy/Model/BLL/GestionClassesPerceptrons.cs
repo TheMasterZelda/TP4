@@ -1,4 +1,5 @@
 ﻿using JeuHoy.Model.DAL;
+using Microsoft.Kinect;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +17,16 @@ namespace JeuHoy.Model.BLL
     /// </summary>
     public class GestionClassesPerceptrons
     {
-        private Dictionary<string, Perceptron> _lstPerceptrons;
+        private Dictionary<int, Perceptron> _lstPerceptrons;
         private GestionFichiersSorties _gestionSortie;
 
         /// <summary>
         /// Constructeur
         /// </summary>
-        public GestionClassesPerceptrons(int source)
+        public GestionClassesPerceptrons()
         {
-            _lstPerceptrons = new Dictionary<string, Perceptron>();
-            _gestionSortie = new GestionFichiersSorties(source);
+            _lstPerceptrons = new Dictionary<int, Perceptron>();
+            _gestionSortie = new GestionFichiersSorties();
 
             ChargerCoordonnees();
         }
@@ -52,7 +53,7 @@ namespace JeuHoy.Model.BLL
         /// <returns>En cas d'erreur retourne le code d'erreur</returns>
         public int SauvegarderCoordonnees()
         {
-            List<CoordSkel> lstCoord = _gestionSortie.ObtenirCoordonneesOriginale() as List<CoordSkel>;
+            List<CoordSkel> lstCoord = _gestionSortie.ObtenirCoordonnees() as List<CoordSkel>;
             int erreur = _gestionSortie.SauvegarderCoordonnees(lstCoord);
             return erreur;
         }
@@ -63,13 +64,14 @@ namespace JeuHoy.Model.BLL
         /// <param name="coordo">Les nouvelles coordonnées</param>
         /// <param name="reponse">La réponse associé(caractère) aux coordonnées</param>
         /// <returns>Le résultat de la console</returns>
-        public string Entrainement(CoordSkel coordo, string reponse)
+        public string Entrainement(Skeleton skel, int reponse)
         {
             string sConsole = "";
             if (!_lstPerceptrons.ContainsKey(reponse))
             {
                 _lstPerceptrons.Add(reponse, new Perceptron(reponse));
             }
+            CoordSkel coordo = new CoordSkel(skel);
             coordo.Reponse = reponse;
             List<CoordSkel> lstCoord = ObtenirCoordonnees() as List<CoordSkel>;//new List<CoordDessin>();
             lstCoord.Add(coordo);
@@ -78,7 +80,7 @@ namespace JeuHoy.Model.BLL
                 sConsole += c.Value.Entrainement(lstCoord);
             }
             // Pour ne pas enregistrer la base de donnée de Yann
-            List<CoordSkel> lst = _gestionSortie.ObtenirCoordonneesOriginale() as List<CoordSkel>;
+            List<CoordSkel> lst = _gestionSortie.ObtenirCoordonnees() as List<CoordSkel>;
             lst.Add(coordo);
             _gestionSortie.SauvegarderCoordonnees(lst);
             return sConsole;
@@ -89,21 +91,21 @@ namespace JeuHoy.Model.BLL
         /// </summary>
         /// <param name="coord">Les nouvelles coordonnées</param>
         /// <returns>Retourne la liste des valeurs possibles du perceptron</returns>
-        public string TesterPerceptron(CoordSkel coord)
-        {
-            string resultat = "";
-
-            foreach (var p in _lstPerceptrons)
-            {
-                if (p.Value.TesterNeurone(coord))
-                    resultat += p.Key + ' ';
-            }
-
-            if (resultat == "")
-                resultat = "?";
-
-            return resultat;
-        }
+       //public string TesterPerceptron(CoordSkel coord)
+       //{
+       //    string resultat = "";
+       //
+       //    foreach (var p in _lstPerceptrons)
+       //    {
+       //        if (p.Value.TesterNeurone(coord))
+       //            resultat += p.Key + ' ';
+       //    }
+       //
+       //    if (resultat == "")
+       //        resultat = "?";
+       //
+       //    return resultat;
+       //}
 
         /// <summary>
         /// Obtient une liste des coordonées.

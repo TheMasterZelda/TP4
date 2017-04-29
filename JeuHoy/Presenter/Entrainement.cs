@@ -126,8 +126,8 @@ namespace JeuHoy.Presenter
         /// <param name="sensor">Le sensor Kinect</param>
         private void DessinerSquelette(Skeleton joueur, KinectSensor sensor)
         {
-            SolidBrush brush;
-            Pen pen;
+           // SolidBrush brush;
+           // Pen pen;
             int iCoordY;
             int iCoordX;
 
@@ -155,12 +155,12 @@ namespace JeuHoy.Presenter
                     float y = (point.Y + iCoordY) / 2;
                     float x = (point.X - iCoordX) / 2;
 
-                    _vue.ShapeContainer.Controls[i].Location = new Point(iCoordX, iCoordY);
+                   // _vue.ShapeContainer.Controls[i].Location = new Point(iCoordX, iCoordY);
 
-                   // using (Graphics g = Graphics.FromImage(_bmapSquelette))
-                   // {
-                   //     g.FillEllipse(_vue.ShapeContainer.Controls[i], x, y, 10, 10);//Brushes.White, x, y, 10, 10);
-                   // }
+                    using (Graphics g = Graphics.FromImage(_bmapSquelette))
+                    {
+                        g.FillEllipse(Brushes.White, x, y, 10, 10);
+                    }
                     _vue.DessinSquelette.Invalidate();
 
                 }

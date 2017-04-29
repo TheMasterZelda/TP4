@@ -51,8 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CstApplication.cs" />
-    <Compile Include="Model\BLL\CoordSkel.cs" />
-    <Compile Include="Model\BLL\Perceptron.cs" />
+    <Compile Include="Model\BLL\GestionClassesPerceptrons.cs" />
+    <Compile Include="Model\DAL\GestionFichiersSorties.cs" />
     <Compile Include="Presenter\Entrainement.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -274,7 +274,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\DAL\" />
     <Folder Include="Model\Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

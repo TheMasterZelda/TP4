@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Kinect;
-
+using System.Drawing.Imaging;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace JeuHoy.Vue
 {
@@ -19,6 +21,7 @@ namespace JeuHoy.Vue
         private bool _isClosing = false;
         private JouerSon _son = new JouerSon();
         private int _positionEnCours = 1;
+        private KinectSensor _sensor;
 
         /// <summary>
         /// Constructeur
@@ -26,6 +29,25 @@ namespace JeuHoy.Vue
         public frmEntrainement()
         {
             InitializeComponent();
+            if (KinectSensor.KinectSensors.Count > 0)
+            {
+                _sensor = KinectSensor.KinectSensors[0];
+                if (_sensor.Status == KinectStatus.Connected)
+                {
+                    _sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+                    _sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
+                    _sensor.SkeletonStream.Enable();
+                    _sensor.AllFramesReady += kinect_ImagePretes;
+                    try
+                    {
+                        _sensor.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Une erreur de connexion \r\n " + ex.Message);
+                    }
+                }
+            }
 
             picKinect.Width = CstApplication.KINECT_DISPLAY_WIDTH;
             picKinect.Height = CstApplication.KINECT_DISPLAY_HEIGHT;
@@ -39,6 +61,53 @@ namespace JeuHoy.Vue
             ChargerFigure();
             _son.JouerSonAsync(@"./HoyContent/hoy.wav");
 
+        }
+
+        private void kinect_ImagePretes(object sender, AllFramesReadyEventArgs e)
+        {
+            byte[] pixels;
+            using (ColorImageFrame colorFrame = e.OpenColorImageFrame())
+            {
+                if (colorFrame != null)
+                {
+                    pixels = new byte[colorFrame.PixelDataLength];
+                    colorFrame.CopyPixelDataTo(pixels);
+                    Bitmap b = CreerBitMapAPartirPixels(pixels, colorFrame.Height, colorFrame.Width);
+                    picKinect.Image = b;
+                }
+            }
+
+            using (SkeletonFrame skeletonFrame = e.OpenSkeletonFrame())
+            {
+                if (skeletonFrame != null)
+                {
+                    Skeleton[] skeletons = new Skeleton[6];
+                    skeletonFrame.CopySkeletonDataTo(skeletons);
+                    Skeleton skel = skeletons.FirstOrDefault(s => s.TrackingState == SkeletonTrackingState.Tracked);
+                    if (skel != null)
+                    {
+                        DessinerSquelette(skel, _sensor);
+                    }
+
+                }
+            }
+        }
+
+        private Bitmap CreerBitMapAPartirPixels(byte[] pixels, int hauteur, int largeur)
+        {
+            //Crée un bitmap vide du bon type pour la bonne dimension
+            Bitmap bitmapFrame = new Bitmap(largeur, hauteur, PixelFormat.Format32bppRgb);
+
+            //Réserve un espace mémoire de type bitmapData pour les pixels
+            BitmapData bitmapData = bitmapFrame.LockBits(new Rectangle(0, 0, largeur, hauteur), ImageLockMode.WriteOnly, bitmapFrame.PixelFormat);
+
+            //Transfert les pixels dans l'espace mémoire réservé.
+            IntPtr intPointer = bitmapData.Scan0;
+            Marshal.Copy(pixels, 0, intPointer, pixels.Length);
+            //Active l'espace mémoire réservé de pixels pour remplir le Bitmap
+            bitmapFrame.UnlockBits(bitmapData);
+
+            return bitmapFrame;
         }
 
         /// <summary>

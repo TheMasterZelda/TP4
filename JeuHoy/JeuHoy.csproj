@@ -60,7 +60,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Vue\IVue.cs" />
-    <Compile Include="Vue\JouerMp3.cs" />
+    <Compile Include="Presenter\JouerMp3.cs" />
     <Compile Include="Vue\GUI\frmAide.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,7 +87,7 @@
     <Compile Include="Vue\GUI\frmJeu.Designer.cs">
       <DependentUpon>frmJeu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vue\JouerSon.cs" />
+    <Compile Include="Presenter\JouerSon.cs" />
     <EmbeddedResource Include="Vue\GUI\frmAide.resx">
       <DependentUpon>frmAide.cs</DependentUpon>
     </EmbeddedResource>

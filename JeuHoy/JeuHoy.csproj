@@ -51,22 +51,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CstApplication.cs" />
+    <Compile Include="Presenter\Entrainement.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Vue\IVue.cs" />
     <Compile Include="Vue\JouerMp3.cs" />
-    <Compile Include="Vue\frmAide.cs">
+    <Compile Include="Vue\GUI\frmAide.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vue\frmAide.Designer.cs">
+    <Compile Include="Vue\GUI\frmAide.Designer.cs">
       <DependentUpon>frmAide.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vue\frmEntree.cs">
+    <Compile Include="Vue\GUI\frmEntree.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vue\frmEntree.Designer.cs">
+    <Compile Include="Vue\GUI\frmEntree.Designer.cs">
       <DependentUpon>frmEntree.cs</DependentUpon>
     </Compile>
     <Compile Include="Vue\frmEntrainement.cs">
@@ -77,20 +79,20 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Vue\frmJeu.cs">
+    <Compile Include="Vue\GUI\frmJeu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vue\frmJeu.Designer.cs">
+    <Compile Include="Vue\GUI\frmJeu.Designer.cs">
       <DependentUpon>frmJeu.cs</DependentUpon>
     </Compile>
     <Compile Include="Vue\JouerSon.cs" />
-    <EmbeddedResource Include="Vue\frmAide.resx">
+    <EmbeddedResource Include="Vue\GUI\frmAide.resx">
       <DependentUpon>frmAide.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vue\frmEntrainement.resx">
       <DependentUpon>frmEntrainement.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vue\frmEntree.resx">
+    <EmbeddedResource Include="Vue\GUI\frmEntree.resx">
       <DependentUpon>frmEntree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -98,7 +100,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vue\frmJeu.resx">
+    <EmbeddedResource Include="Vue\GUI\frmJeu.resx">
       <DependentUpon>frmJeu.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
@@ -269,7 +271,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\BLL\" />
+    <Folder Include="Model\DAL\" />
+    <Folder Include="Model\Data\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

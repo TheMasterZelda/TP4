@@ -414,7 +414,7 @@
             this.pDessinSquelette.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pDessinSquelette.Location = new System.Drawing.Point(12, 3);
             this.pDessinSquelette.Name = "pDessinSquelette";
-            this.pDessinSquelette.Size = new System.Drawing.Size(320, 263);
+            this.pDessinSquelette.Size = new System.Drawing.Size(320, 240);
             this.pDessinSquelette.TabIndex = 13;
             this.pDessinSquelette.Paint += new System.Windows.Forms.PaintEventHandler(this.pDessinSquelette_Paint);
             // 

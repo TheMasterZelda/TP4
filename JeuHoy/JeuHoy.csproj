@@ -71,10 +71,10 @@
     <Compile Include="Vue\GUI\frmEntree.Designer.cs">
       <DependentUpon>frmEntree.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vue\frmEntrainement.cs">
+    <Compile Include="Vue\GUI\frmEntrainement.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vue\frmEntrainement.Designer.cs">
+    <Compile Include="Vue\GUI\frmEntrainement.Designer.cs">
       <DependentUpon>frmEntrainement.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -89,7 +89,7 @@
     <EmbeddedResource Include="Vue\GUI\frmAide.resx">
       <DependentUpon>frmAide.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vue\frmEntrainement.resx">
+    <EmbeddedResource Include="Vue\GUI\frmEntrainement.resx">
       <DependentUpon>frmEntrainement.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vue\GUI\frmEntree.resx">

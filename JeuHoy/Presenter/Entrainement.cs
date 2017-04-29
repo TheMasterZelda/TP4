@@ -66,7 +66,7 @@ namespace JeuHoy.Presenter
 
             _vue.NbPosition = CstApplication.NBFIGURE.ToString();
             ChargerFigure();
-            _son.JouerSonAsync(@"./HoyContent/hoy.wav");
+            _son.JouerSonAsync(@"./HoyContent/hoooy.wav");
         }
 
         #region Kinect

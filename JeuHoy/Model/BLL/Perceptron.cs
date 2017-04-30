@@ -84,5 +84,10 @@ namespace JeuHoy.Model.BLL
             }
             return (sum >= 0) ? 1 : 0;
         }
+
+        public bool TesterNeurone(CoordSkel coord)
+        {
+            return false;
+        }
     }
 }

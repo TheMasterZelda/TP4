@@ -9,6 +9,7 @@ using System.Drawing;
 using Microsoft.Kinect;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using JeuHoy.Model.BLL;
 
 namespace JeuHoy.Presenter
 {
@@ -21,9 +22,7 @@ namespace JeuHoy.Presenter
         private Dictionary<string, Image> _dicImgFigure = new Dictionary<string, Image>();
         private KinectSensor _sensor;
         private bool _isClosing = false;
-
-
-
+        private GestionClassesPerceptrons _gcpAnalyseEcriture;
 
         public Entrainement(IVue vue)
         {
@@ -155,7 +154,7 @@ namespace JeuHoy.Presenter
                     float y = (point.Y + iCoordY) / 2;
                     float x = (point.X - iCoordX) / 2;
 
-                   // _vue.ShapeContainer.Controls[i].Location = new Point(iCoordX, iCoordY);
+                    //_vue.ShapeContainer.Controls[i-1].Location = new Point(iCoordX, iCoordY);
 
                     using (Graphics g = Graphics.FromImage(_bmapSquelette))
                     {
@@ -225,7 +224,7 @@ namespace JeuHoy.Presenter
 
         private void btnApprendre_Click(object sender, EventArgs e)
         {
-
+            _vue.Console = _gcpAnalyseEcriture.Entrainement(new Skeleton(), _position);
         }
 
         /// <summary>
@@ -236,6 +235,7 @@ namespace JeuHoy.Presenter
         private void pDessinSquelette_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(_bmapSquelette, Point.Empty);
+            _vue.Console = _gcpAnalyseEcriture.TesterPerceptron(new CoordSkel(new Skeleton()));
         }
 
         /// <summary>

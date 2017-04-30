@@ -73,16 +73,13 @@ namespace JeuHoy.Model.BLL
             }
             CoordSkel coordo = new CoordSkel(skel);
             coordo.Reponse = reponse;
-            List<CoordSkel> lstCoord = ObtenirCoordonnees() as List<CoordSkel>;//new List<CoordDessin>();
+            List<CoordSkel> lstCoord = ObtenirCoordonnees() as List<CoordSkel>;
             lstCoord.Add(coordo);
             foreach (var c in _lstPerceptrons)
             {
                 sConsole += c.Value.Entrainement(lstCoord);
             }
-            // Pour ne pas enregistrer la base de donnée de Yann
-            List<CoordSkel> lst = _gestionSortie.ObtenirCoordonnees() as List<CoordSkel>;
-            lst.Add(coordo);
-            _gestionSortie.SauvegarderCoordonnees(lst);
+            _gestionSortie.SauvegarderCoordonnees(lstCoord);
             return sConsole;
         }
 
@@ -91,21 +88,21 @@ namespace JeuHoy.Model.BLL
         /// </summary>
         /// <param name="coord">Les nouvelles coordonnées</param>
         /// <returns>Retourne la liste des valeurs possibles du perceptron</returns>
-       //public string TesterPerceptron(CoordSkel coord)
-       //{
-       //    string resultat = "";
-       //
-       //    foreach (var p in _lstPerceptrons)
-       //    {
-       //        if (p.Value.TesterNeurone(coord))
-       //            resultat += p.Key + ' ';
-       //    }
-       //
-       //    if (resultat == "")
-       //        resultat = "?";
-       //
-       //    return resultat;
-       //}
+        public string TesterPerceptron(CoordSkel coord)
+        {
+            string resultat = "";
+
+            foreach (var p in _lstPerceptrons)
+            {
+                if (p.Value.TesterNeurone(coord))
+                    resultat += "Figure courrante : " + p.Key + "\r\n";
+            }
+
+            if (resultat == "")
+                resultat = "Aucune position correspondante.";
+
+            return resultat;
+        }
 
         /// <summary>
         /// Obtient une liste des coordonées.

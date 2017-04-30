@@ -37,7 +37,7 @@ namespace JeuHoy.Vue
 
             set
             {
-                txtConsole.Text += "\r\n" + value;
+                txtConsole.Text = value;
             }
         }
 

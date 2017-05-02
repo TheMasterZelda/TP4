@@ -54,9 +54,8 @@ namespace JeuHoy.Model.BLL
         public int SauvegarderCoordonnees()
         {
             List<CoordSkel> lstCoord = _gestionSortie.ObtenirCoordonnees() as List<CoordSkel>;
-            // int erreur = _gestionSortie.SauvegarderCoordonnees(lstCoord);
-            //return erreur;
-            return 0;
+            int erreur = _gestionSortie.SauvegarderCoordonnees(lstCoord);
+            return erreur;
         }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace JeuHoy.Model.BLL
             {
                 sConsole += c.Value.Entrainement(lstCoord);
             }
-         //   _gestionSortie.SauvegarderCoordonnees(lstCoord);
+            _gestionSortie.SauvegarderCoordonnees(lstCoord);
             return sConsole;
         }
 

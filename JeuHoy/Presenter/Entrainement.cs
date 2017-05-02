@@ -243,9 +243,9 @@ namespace JeuHoy.Presenter
         private void pDessinSquelette_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(_bmapSquelette, Point.Empty);
-            //_vue.Console = _gcpAnalyseEcriture.TesterPerceptron(_skeleton);
-           // if (_vue.Console != "Aucune position correspondante.")
-              //  MessageBox.Show(_vue.Console);
+            _vue.Console = _gcpAnalyseEcriture.TesterPerceptron(_skeleton);
+            if (_vue.Console != "Aucune position correspondante.")
+                MessageBox.Show(_vue.Console);
         }
 
         /// <summary>

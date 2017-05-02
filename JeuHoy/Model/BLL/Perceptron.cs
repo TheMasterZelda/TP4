@@ -80,14 +80,19 @@ namespace JeuHoy.Model.BLL
 
             for (int i = 1; i < vecteurSyn.Length; i++)
             {
-                sum += _poidsSyn[i] * (skel.Position.X + skel. Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
+                sum += _poidsSyn[i] * (skel.Position.X + skel.Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
             }
             return (sum >= 0) ? 1 : 0;
         }
 
-        public bool TesterNeurone(CoordSkel coord)
+        public bool TesterNeurone(Skeleton skel)
         {
-            return false;
+            double sum = _poidsSyn[0];
+            for (int i = 1; i < _poidsSyn.Length; i++)
+            {
+                sum += _poidsSyn[i] * (skel.Position.X + skel.Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
+            }
+            return (sum >= 0) ? false : true;
         }
     }
 }

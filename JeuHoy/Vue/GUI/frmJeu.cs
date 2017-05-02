@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace JeuHoy.Vue
@@ -10,14 +11,27 @@ namespace JeuHoy.Vue
     /// </summary>
     public partial class frmJeu : Form
     {
-
+        
         /// <summary>
         /// Constructeur
         /// </summary>
         public frmJeu()
         {
             InitializeComponent();
+            tmrTemps.Tick += new EventHandler(timer_tick);
         }
+
+        private void timer_tick(object sender, EventArgs e)
+        {
+            int temps = Int32.Parse(lblTemps.Text);
+            if (temps > 0)
+                lblTemps.Text = (--temps).ToString();
+            else if (temps == 0)
+            {
+                picPositionAFaire.Image = Image.FromFile(@"./Resources/kim.png");
+            }
+        }
+
         /// <summary>
         /// Ferme la fenêtre lorsqu'on appuie sur le bouton retour.
         /// </summary>

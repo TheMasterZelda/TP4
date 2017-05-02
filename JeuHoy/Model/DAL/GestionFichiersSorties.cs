@@ -27,8 +27,8 @@ namespace JeuHoy.Model.DAL
 
             try
             {
-                string sFichier = ConfigurationManager.AppSettings["DataPath"] + ConfigurationManager.AppSettings["FichierApp"];
-                StreamReader sr = new StreamReader(new FileStream(sFichier, FileMode.Open, FileAccess.Read));
+           //     string sFichier = ConfigurationManager.AppSettings["DataPath"] + ConfigurationManager.AppSettings["FichierApp"];
+            //    StreamReader sr = new StreamReader(new FileStream(sFichier, FileMode.Open, FileAccess.Read));
                 //string sLigne = "";
                 //string[] sTabElement;
                 //int iTailleArray = 0;
@@ -61,7 +61,7 @@ namespace JeuHoy.Model.DAL
               //     cd.Reponse = sTabElement[sTabElement.Length - 1];
               //     _lstCoord.Add(cd);
               // }
-                sr.Close();
+            //    sr.Close();
             }
             catch(Exception ex)
             {

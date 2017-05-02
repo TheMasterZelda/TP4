@@ -24,6 +24,7 @@ namespace JeuHoy.Presenter
         private KinectSensor _sensor;
         private bool _isClosing = false;
         private GestionClassesPerceptrons _gcpAnalyseEcriture;
+        private Skeleton _skeleton;
 
         public Entrainement(IVue vue)
         {
@@ -35,6 +36,8 @@ namespace JeuHoy.Presenter
             _vue.Retour += picRetour_Click;
             _vue.RetourMouseHover += picRetour_MouseHover;
             _vue.RetourMouseLeave += picRetour_MouseLeave;
+
+            _gcpAnalyseEcriture = new GestionClassesPerceptrons();
 
             if (KinectSensor.KinectSensors.Count > 0)
             {
@@ -92,11 +95,15 @@ namespace JeuHoy.Presenter
                     Skeleton[] skeletons = new Skeleton[6];
                     skeletonFrame.CopySkeletonDataTo(skeletons);
                     Skeleton skel = skeletons.FirstOrDefault(s => s.TrackingState == SkeletonTrackingState.Tracked);
+                    _skeleton = skel;
                     if (skel != null)
                     {
                         DessinerSquelette(skel, _sensor);
                     }
-
+                }
+                else
+                {
+                    _skeleton = null;
                 }
             }
         }
@@ -225,7 +232,7 @@ namespace JeuHoy.Presenter
 
         private void btnApprendre_Click(object sender, EventArgs e)
         {
-            _vue.Console = _gcpAnalyseEcriture.Entrainement(new Skeleton(), _position);
+            _vue.Console = _gcpAnalyseEcriture.Entrainement(_skeleton, _position);
         }
 
         /// <summary>
@@ -236,7 +243,9 @@ namespace JeuHoy.Presenter
         private void pDessinSquelette_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(_bmapSquelette, Point.Empty);
-            //_vue.Console = _gcpAnalyseEcriture.TesterPerceptron(new CoordSkel(new Skeleton()));
+            //_vue.Console = _gcpAnalyseEcriture.TesterPerceptron(_skeleton);
+           // if (_vue.Console != "Aucune position correspondante.")
+              //  MessageBox.Show(_vue.Console);
         }
 
         /// <summary>

@@ -54,8 +54,9 @@ namespace JeuHoy.Model.BLL
         public int SauvegarderCoordonnees()
         {
             List<CoordSkel> lstCoord = _gestionSortie.ObtenirCoordonnees() as List<CoordSkel>;
-            int erreur = _gestionSortie.SauvegarderCoordonnees(lstCoord);
-            return erreur;
+            // int erreur = _gestionSortie.SauvegarderCoordonnees(lstCoord);
+            //return erreur;
+            return 0;
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace JeuHoy.Model.BLL
             {
                 sConsole += c.Value.Entrainement(lstCoord);
             }
-            _gestionSortie.SauvegarderCoordonnees(lstCoord);
+         //   _gestionSortie.SauvegarderCoordonnees(lstCoord);
             return sConsole;
         }
 
@@ -88,8 +89,9 @@ namespace JeuHoy.Model.BLL
         /// </summary>
         /// <param name="coord">Les nouvelles coordonnées</param>
         /// <returns>Retourne la liste des valeurs possibles du perceptron</returns>
-        public string TesterPerceptron(CoordSkel coord)
+        public string TesterPerceptron(Skeleton skel)
         {
+            CoordSkel coord = new CoordSkel(skel);
             string resultat = "";
 
             foreach (var p in _lstPerceptrons)

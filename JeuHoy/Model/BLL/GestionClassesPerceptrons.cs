@@ -91,12 +91,11 @@ namespace JeuHoy.Model.BLL
         /// <returns>Retourne la liste des valeurs possibles du perceptron</returns>
         public string TesterPerceptron(Skeleton skel)
         {
-            CoordSkel coord = new CoordSkel(skel);
             string resultat = "";
 
             foreach (var p in _lstPerceptrons)
             {
-                if (p.Value.TesterNeurone(coord))
+                if (p.Value.TesterNeurone(skel))
                     resultat += "Figure courrante : " + p.Key + "\r\n";
             }
 

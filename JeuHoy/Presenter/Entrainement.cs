@@ -10,6 +10,7 @@ using Microsoft.Kinect;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using JeuHoy.Model.BLL;
+using Microsoft.VisualBasic.PowerPacks;
 
 namespace JeuHoy.Presenter
 {
@@ -125,8 +126,8 @@ namespace JeuHoy.Presenter
         /// <param name="sensor">Le sensor Kinect</param>
         private void DessinerSquelette(Skeleton joueur, KinectSensor sensor)
         {
-           // SolidBrush brush;
-           // Pen pen;
+            SolidBrush brush;
+            Pen pen;
             int iCoordY;
             int iCoordX;
 
@@ -143,9 +144,8 @@ namespace JeuHoy.Presenter
                 for (int i = 1; i < joueur.Joints.Count; i++)
                 {
 
-                   // _vue.ShapeContainer.Container.;
-                   // brush = new SolidBrush(Color.White);
-                   // pen = new Pen(Color.White);
+                    brush = new SolidBrush(Color.White);
+                    pen = new Pen(Color.White);
                     iCoordY = (int)(_vue.FormEntrainement.Height - _vue.FormEntrainement.ClientSize.Height);
                     iCoordX = (int)(_vue.FormEntrainement.Width - _vue.FormEntrainement.ClientSize.Width) / 2;
                     DepthImagePoint point = sensor.CoordinateMapper.MapSkeletonPointToDepthPoint(joueur.Joints[(JointType)i].Position,
@@ -154,7 +154,8 @@ namespace JeuHoy.Presenter
                     float y = (point.Y + iCoordY) / 2;
                     float x = (point.X - iCoordX) / 2;
 
-                    //_vue.ShapeContainer.Controls[i-1].Location = new Point(iCoordX, iCoordY);
+                    //((OvalShape)_vue.ShapeContainer.Shapes.get_Item(i - 1)).Top = (int)y;
+                    //((OvalShape)_vue.ShapeContainer.Shapes.get_Item(i - 1)).Left = (int)x;
 
                     using (Graphics g = Graphics.FromImage(_bmapSquelette))
                     {
@@ -235,7 +236,7 @@ namespace JeuHoy.Presenter
         private void pDessinSquelette_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(_bmapSquelette, Point.Empty);
-            _vue.Console = _gcpAnalyseEcriture.TesterPerceptron(new CoordSkel(new Skeleton()));
+            //_vue.Console = _gcpAnalyseEcriture.TesterPerceptron(new CoordSkel(new Skeleton()));
         }
 
         /// <summary>

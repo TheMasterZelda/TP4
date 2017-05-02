@@ -60,7 +60,7 @@ namespace JeuHoy.Model.BLL
                         _poidsSyn[0] += _cstApprentissage * (iVraieValeur - iValeurEstime);
                         for (int j = 1; j < _poidsSyn.Length; j++)
                         {
-                            _poidsSyn[j] += _cstApprentissage * (iVraieValeur - iValeurEstime) * (s.Skeleton.Position.X + s.Skeleton.Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
+                            _poidsSyn[j] += _cstApprentissage * (iVraieValeur - iValeurEstime) * (s.Skeleton.Joints[(JointType)j].Position.X + s.Skeleton.Joints[(JointType)j].Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
                         }
                     }
                 }
@@ -92,7 +92,7 @@ namespace JeuHoy.Model.BLL
             {
                 sum += _poidsSyn[i] * (skel.Joints[(JointType)i].Position.X + skel.Joints[(JointType)i].Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
             }
-            return (sum >= 0) ? false : false;
+            return (sum >= 0) ? false : true;
         }
     }
 }

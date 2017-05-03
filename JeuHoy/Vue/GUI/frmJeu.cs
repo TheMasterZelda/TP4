@@ -27,7 +27,10 @@ namespace JeuHoy.Vue
         {
             int temps = Int32.Parse(lblTemps.Text);
             if (temps > 0)
+            {
                 lblTemps.Text = (--temps).ToString();
+                _son.JouerSonAsync(@"./HoyContent/YES.wav");
+            }
             else if (temps == 0 && !_finished)
             {
                 picPositionAFaire.Image = Image.FromFile(@"./Resources/kim.png");

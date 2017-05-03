@@ -121,7 +121,7 @@ namespace JeuHoy.Presenter
             const double ConfidenceThreshold = 0.3;
             if (e.Result.Confidence >= ConfidenceThreshold)
             {
-                _vue.Console = _gcpAnalyseEcriture.Entrainement(_skeleton, _position);
+                _gcpAnalyseEcriture.Entrainement(_skeleton, _position);
                 _son.JouerSonAsync(@"./HoyContent/hoooy.wav");
             }
         }

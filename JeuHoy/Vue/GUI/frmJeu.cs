@@ -12,6 +12,7 @@ namespace JeuHoy.Vue
     /// </summary>
     public partial class frmJeu : Form, IVueJeu
     {
+<<<<<<< HEAD
         private Jeu _jeu;
 
         public event EventHandler Fermeture;
@@ -80,6 +81,10 @@ namespace JeuHoy.Vue
                 lblPoint.Text = value;
             }
         }
+=======
+        private JouerSon _son = new JouerSon();
+        private bool _finished = false;
+>>>>>>> origin/master
 
         /// <summary>
         /// Constructeur
@@ -95,10 +100,15 @@ namespace JeuHoy.Vue
         {
             int temps = Int32.Parse(lblTemps.Text);
             if (temps > 0)
+            {
                 lblTemps.Text = (--temps).ToString();
-            else if (temps == 0)
+                _son.JouerSonAsync(@"./HoyContent/YES.wav");
+            }
+            else if (temps == 0 && !_finished)
             {
                 picPositionAFaire.Image = Image.FromFile(@"./Resources/kim.png");
+                _son.JouerSonAsync(@"./HoyContent/riphugo.wav");
+                _finished = true;
             }
         }
 

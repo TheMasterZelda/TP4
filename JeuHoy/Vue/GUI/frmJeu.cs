@@ -12,7 +12,6 @@ namespace JeuHoy.Vue
     /// </summary>
     public partial class frmJeu : Form, IVueJeu
     {
-<<<<<<< HEAD
         private Jeu _jeu;
 
         public event EventHandler Fermeture;
@@ -81,10 +80,8 @@ namespace JeuHoy.Vue
                 lblPoint.Text = value;
             }
         }
-=======
         private JouerSon _son = new JouerSon();
         private bool _finished = false;
->>>>>>> origin/master
 
         /// <summary>
         /// Constructeur

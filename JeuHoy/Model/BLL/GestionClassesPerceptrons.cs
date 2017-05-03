@@ -29,6 +29,7 @@ namespace JeuHoy.Model.BLL
             _gestionSortie = new GestionFichiersSorties();
 
             ChargerCoordonnees();
+            EntrainementInitial();
         }
 
         /// <summary>
@@ -64,9 +65,10 @@ namespace JeuHoy.Model.BLL
         /// <param name="coordo">Les nouvelles coordonnées</param>
         /// <param name="reponse">La réponse associé(caractère) aux coordonnées</param>
         /// <returns>Le résultat de la console</returns>
-        public string Entrainement(Skeleton skel, int reponse)
+        public void Entrainement(Skeleton skel, int reponse)
         {
-            string sConsole = "";
+            if (skel == null)
+                return;
             if (!_lstPerceptrons.ContainsKey(reponse))
             {
                 _lstPerceptrons.Add(reponse, new Perceptron(reponse));
@@ -77,10 +79,23 @@ namespace JeuHoy.Model.BLL
             lstCoord.Add(coordo);
             foreach (var c in _lstPerceptrons)
             {
-                sConsole += c.Value.Entrainement(lstCoord);
+                c.Value.Entrainement(lstCoord);
             }
-            _gestionSortie.SauvegarderCoordonnees(lstCoord);
-            return sConsole;
+        }
+
+        /// <summary>
+        /// Entraine les perceptrons avec un nouveau caractère
+        /// </summary>
+        /// <param name="coordo">Les nouvelles coordonnées</param>
+        /// <param name="reponse">La réponse associé(caractère) aux coordonnées</param>
+        /// <returns>Le résultat de la console</returns>
+        private void EntrainementInitial()
+        {
+            List<CoordSkel> lstCoord = ObtenirCoordonnees() as List<CoordSkel>;
+            foreach (var c in _lstPerceptrons)
+            {
+                c.Value.Entrainement(lstCoord);
+            }
         }
 
         /// <summary>
@@ -91,6 +106,9 @@ namespace JeuHoy.Model.BLL
         public string TesterPerceptron(Skeleton skel)
         {
             string resultat = "";
+
+            if (skel == null)
+                return "Aucun joueur détecté.";
 
             foreach (var p in _lstPerceptrons)
             {

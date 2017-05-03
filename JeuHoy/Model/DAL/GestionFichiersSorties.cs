@@ -7,6 +7,8 @@ using JeuHoy.Model.BLL;
 using System.Windows.Forms;
 using System.Configuration;
 using System.IO;
+using Microsoft.Kinect;
+using System.Globalization;
 
 namespace JeuHoy.Model.DAL
 {
@@ -27,43 +29,46 @@ namespace JeuHoy.Model.DAL
 
             try
             {
-           //     string sFichier = ConfigurationManager.AppSettings["DataPath"] + ConfigurationManager.AppSettings["FichierApp"];
-            //    StreamReader sr = new StreamReader(new FileStream(sFichier, FileMode.Open, FileAccess.Read));
-                //string sLigne = "";
-                //string[] sTabElement;
-                //int iTailleArray = 0;
-                //
-                //if (!sr.EndOfStream)
-                //{
-                //    sLigne = sr.ReadLine();
-                //    iTailleArray = Convert.ToInt32(sLigne);
-                //}
+                string sFichier = ConfigurationManager.AppSettings["DataPath"] + ConfigurationManager.AppSettings["FichierApp"];
+                StreamReader sr = new StreamReader(new FileStream(sFichier, FileMode.Open, FileAccess.Read));
+                string sLigne = "";
+                string[] sTabElement;
 
-               // if (iTailleArray != CstApplication.NOMBRE_BITS_X * CstApplication.NOMBRE_BITS_Y)
-               // {
-               //     return _lstCoord;
-               // }
-              //
-              // while (!sr.EndOfStream)
-              // {
-              //     sLigne = sr.ReadLine();
-              //     sTabElement = sLigne.Split('\t');
-              //     CoordDessin cd = new CoordDessin(CstApplication.TAILLEDESSINY, CstApplication.TAILLEDESSINX);
-              //
-              //     for (int x = 0; x < CstApplication.NOMBRE_BITS_X; x++)
-              //     {
-              //         for (int y = 0; y < CstApplication.NOMBRE_BITS_Y; y++)
-              //         {
-              //             if (Convert.ToInt32(sTabElement[y + (CstApplication.NOMBRE_BITS_Y * x)]) == CstApplication.FAUX)
-              //                 cd.AjouterCoordonnees(x * CstApplication.LARGEURTRAIT, y * CstApplication.HAUTEURTRAIT, CstApplication.LARGEURTRAIT, CstApplication.HAUTEURTRAIT);
-              //         }
-              //     }
-              //     cd.Reponse = sTabElement[sTabElement.Length - 1];
-              //     _lstCoord.Add(cd);
-              // }
-            //    sr.Close();
+                while (!sr.EndOfStream)
+                {
+                    sLigne = sr.ReadLine();
+                    Skeleton skel = new Skeleton();
+                    sTabElement = sLigne.Split('\t');
+                    
+                    SkeletonPoint position = new SkeletonPoint
+                    {
+                        X = 0,
+                        Y = 0
+                    };
+
+                    for (int i = 0; i < 20; i++)
+                    {
+                        if (i % 2 == 0)
+                        {
+                            position.X = float.Parse(sTabElement[i], CultureInfo.InvariantCulture.NumberFormat);
+                        }
+                        else
+                        {
+                            position.Y = float.Parse(sTabElement[i], CultureInfo.InvariantCulture.NumberFormat);
+                            Joint joint = new Joint{Position = position};
+                            skel.Joints[(JointType)(i/2)] = joint;
+                            if (i == 19)
+                            {
+                                CoordSkel coordskel = new CoordSkel(skel);
+                                coordskel.Reponse = Convert.ToInt32(sTabElement[sTabElement.Length - 1]);
+                                _lstCoord.Add(coordskel);
+                            }
+                        }
+                    }
+                }
+                sr.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -81,20 +86,18 @@ namespace JeuHoy.Model.DAL
                 string sFichier = ConfigurationManager.AppSettings["DataPath"] + ConfigurationManager.AppSettings["FichierApp"];
                 StreamWriter sw = new StreamWriter(new FileStream(sFichier, FileMode.Open, FileAccess.Write));
 
-                //sw.WriteLine(CstApplication.NOMBRE_BITS_X * CstApplication.NOMBRE_BITS_Y);
+                foreach (CoordSkel cd in lstCoord)
+                {
+                    string sLigne = "";
 
-              //  foreach (CoordSkel cd in lstCoord)
-              //  {
-                   // string sLigne = "";
-
-                   // foreach (bool bit in cd.Skeleton)
-                   // {
-                   //     sLigne += bit ? CstApplication.FAUX : CstApplication.VRAI;
-                   //     sLigne += "\t";
-                   // }
-                   // sLigne += cd.Reponse;
-                   // sw.WriteLine(sLigne);
-              //  }
+                    foreach (Joint join in cd.Skeleton.Joints)
+                    {
+                        sLigne += join.Position.X + "\t";
+                        sLigne += join.Position.Y + "\t";
+                    }
+                    sLigne += cd.Reponse;
+                    sw.WriteLine(sLigne);
+                }
 
                 sw.Close();
 

@@ -32,10 +32,10 @@ namespace JeuHoy.Model.BLL
             _reponse = reponse;
         }
 
-        public string Entrainement(List<CoordSkel> lstSkel)
+        public void Entrainement(List<CoordSkel> lstSkel)
         {
             Random r = new Random();
-            string resultat = "";
+            //string resultat = "";
             int iNbIterration = 0;
             int iNbErreur = 0;
             int iTaillePoids = 21;
@@ -69,9 +69,9 @@ namespace JeuHoy.Model.BLL
 
             } while (iNbErreur != 0 && iNbIterration < CstApplication.MAXITERATION && ((double)(lstSkel.Count - iNbErreur) / (double)(lstSkel.Count) * 100.0d) < CstApplication.POURCENTCONVERGENCE);
 
-            resultat += $"Le pourcentage de réussite est de {((double)(lstSkel.Count - iNbErreur) / (double)(lstSkel.Count)) * 100.0d} pour {Reponse} avec {iNbIterration} iterration et {iNbErreur} erreur\r\n";
+            //resultat += $"Le pourcentage de réussite est de {((double)(lstSkel.Count - iNbErreur) / (double)(lstSkel.Count)) * 100.0d} pour {Reponse} avec {iNbIterration} iterration et {iNbErreur} erreur\r\n";
 
-            return resultat;
+            //return resultat;
         }
 
         private int ValeurEstime(double[] vecteurSyn, Skeleton skel)
@@ -80,7 +80,7 @@ namespace JeuHoy.Model.BLL
 
             for (int i = 1; i < vecteurSyn.Length; i++)
             {
-                sum += _poidsSyn[i] * (skel.Joints[(JointType)i].Position.X + skel.Joints[(JointType)i].Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
+                sum += _poidsSyn[i] * (skel.Joints[(JointType)i-1].Position.X + skel.Joints[(JointType)i-1].Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
             }
             return (sum >= 0) ? 1 : 0;
         }
@@ -90,7 +90,7 @@ namespace JeuHoy.Model.BLL
             double sum = _poidsSyn[0];
             for (int i = 1; i < _poidsSyn.Length; i++)
             {
-                sum += _poidsSyn[i] * (skel.Joints[(JointType)i].Position.X + skel.Joints[(JointType)i].Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
+                sum += _poidsSyn[i] * (skel.Joints[(JointType)i-1].Position.X + skel.Joints[(JointType)i-1].Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
             }
             return (sum >= 0) ? false : true;
         }

@@ -264,6 +264,7 @@ namespace JeuHoy.Presenter
         private void btnFermer_Click(object sender, EventArgs e)
         {
             _isClosing = true;
+            _gcpAnalyseEcriture.SauvegarderCoordonnees();
             _vue.FormEntrainement.Close();
         }
 
@@ -286,7 +287,7 @@ namespace JeuHoy.Presenter
 
         private void btnApprendre_Click(object sender, EventArgs e)
         {
-            _vue.Console = _gcpAnalyseEcriture.Entrainement(_skeleton, _position);
+            _gcpAnalyseEcriture.Entrainement(_skeleton, _position);
         }
 
         /// <summary>
@@ -298,8 +299,6 @@ namespace JeuHoy.Presenter
         {
             e.Graphics.DrawImage(_bmapSquelette, Point.Empty);
             _vue.Console = _gcpAnalyseEcriture.TesterPerceptron(_skeleton);
-            if (_vue.Console != "Aucune position correspondante.")
-                MessageBox.Show(_vue.Console);
         }
 
         /// <summary>
@@ -309,6 +308,7 @@ namespace JeuHoy.Presenter
         /// <param name="e"></param>
         private void picRetour_Click(object sender, EventArgs e)
         {
+            _gcpAnalyseEcriture.SauvegarderCoordonnees();
             _vue.FormEntrainement.Close();
         }
 

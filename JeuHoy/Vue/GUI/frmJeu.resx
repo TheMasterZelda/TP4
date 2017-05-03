@@ -156,11 +156,14 @@
   <metadata name="lineShape1.Size" type="System.Drawing.Size, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>296, 0</value>
   </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>85</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAABVYAAAMACAYAAADPPjzCAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAACxEAAAsRAX9kX5EAAAAGYktHRAD/AP8A/6C9p5MAAAAHdElNRQfeAgMDCSaNHKuc
+        YQUAAAAJcEhZcwAACxAAAAsQAa0jvXUAAAAGYktHRAD/AP8A/6C9p5MAAAAHdElNRQfeAgMDCSaNHKuc
         AAD/gElEQVR4Xuz9+bdlZXnu/2+EYI993/cKgjRBUbE3ElsIIBpUVAxRVFQ0elCJYlBRjME4TuIwOTHN
         ODrMOdGRc4aak08cyTlGHfkDgn0BRXXULqqvAooqx/5c1961it1ce++511xzrfnM+f7hNT7f74lU7b3W
         mvdz31c963mm/nNqagYr+7ncJr8GgAIdkusl1bcqrj92auZXJ8mzynLTK6Zmbn59v228aGrmlj9YaNMl

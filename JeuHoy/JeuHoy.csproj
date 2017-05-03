@@ -62,6 +62,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Vue\IVueJeu.cs" />
     <Compile Include="Vue\IVue.cs" />
     <Compile Include="Presenter\JouerMp3.cs" />
     <Compile Include="Vue\GUI\frmAide.cs">

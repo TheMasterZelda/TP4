@@ -11,6 +11,8 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using JeuHoy.Model.BLL;
 using Microsoft.VisualBasic.PowerPacks;
+using System.Speech.Recognition;
+using System.Speech.AudioFormat;
 
 namespace JeuHoy.Presenter
 {
@@ -25,6 +27,7 @@ namespace JeuHoy.Presenter
         private bool _isClosing = false;
         private GestionClassesPerceptrons _gcpAnalyseEcriture;
         private Skeleton _skeleton;
+        private SpeechRecognitionEngine speechEngine;
 
         public Entrainement(IVue vue)
         {
@@ -57,6 +60,29 @@ namespace JeuHoy.Presenter
                         MessageBox.Show("Une erreur de connexion \r\n " + ex.Message);
                     }
                 }
+                // Voix
+                RecognizerInfo ri = GetKinectRecognizer();
+
+                if (null != ri)
+                {
+                    this.speechEngine = new SpeechRecognitionEngine(ri.Id);
+                }
+
+                var directions = new Choices();
+                directions.Add(new SemanticResultValue("hoy", "HOY!"));
+                directions.Add(new SemanticResultValue("hoooy", "HOY!"));
+
+
+                var gb = new GrammarBuilder { Culture = ri.Culture };
+                gb.Append(directions);
+                var g = new Grammar(gb);
+                speechEngine.LoadGrammar(g);
+                speechEngine.SpeechRecognized += SpeechRecognized;
+                speechEngine.SpeechRecognitionRejected += SpeechRejected;
+                speechEngine.SetInputToAudioStream(_sensor.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+
+                speechEngine.RecognizeAsync(RecognizeMode.Multiple);
+                // Fin voix
             }
 
             _vue.PicKinect.Width = CstApplication.KINECT_DISPLAY_WIDTH;
@@ -70,6 +96,34 @@ namespace JeuHoy.Presenter
             _vue.NbPosition = CstApplication.NBFIGURE.ToString();
             ChargerFigure();
             _son.JouerSonAsync(@"./HoyContent/hoooy.wav");
+
+           
+        }
+
+        private RecognizerInfo GetKinectRecognizer()
+        {
+            foreach (RecognizerInfo recognizer in SpeechRecognitionEngine.InstalledRecognizers())
+            {
+                string value;
+                recognizer.AdditionalInfo.TryGetValue("Kinect", out value);
+                return recognizer;
+            }
+
+            return null;
+        }
+
+        private void SpeechRejected(object sender, SpeechRecognitionRejectedEventArgs e)
+        {
+        }
+
+        private void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            const double ConfidenceThreshold = 0.3;
+            if (e.Result.Confidence >= ConfidenceThreshold)
+            {
+                _vue.Console = _gcpAnalyseEcriture.Entrainement(_skeleton, _position);
+                _son.JouerSonAsync(@"./HoyContent/hoooy.wav");
+            }
         }
 
         #region Kinect

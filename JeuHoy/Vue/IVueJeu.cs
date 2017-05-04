@@ -13,6 +13,7 @@ namespace JeuHoy.Vue
         string sPosition { get; set; }
         string sNbPosition { get; set; }
         string sPoints { get; set; }
+        string sTemps { get; set; }
         Image PositionAFaire { get; set; }
         Form form { get; }
         event EventHandler Fermeture;

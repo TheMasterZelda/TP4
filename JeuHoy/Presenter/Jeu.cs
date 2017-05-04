@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JeuHoy.Presenter
 {
@@ -49,12 +50,12 @@ namespace JeuHoy.Presenter
 
         private void timer_tick(object sender, EventArgs e)
         {
-            int temps = Int32.Parse(lblTemps.Text);
+            int temps = Int32.Parse(_vue.sTemps);
             if (temps > 0)
-                lblTemps.Text = (--temps).ToString();
+                _vue.sTemps = (--temps).ToString();
             else if (temps == 0)
             {
-                picPositionAFaire.Image = Image.FromFile(@"./Resources/kim.png");
+                _vue.PositionAFaire = Image.FromFile(@"./Resources/kim.png");
             }
         }
 
@@ -65,7 +66,7 @@ namespace JeuHoy.Presenter
         /// <param name="e"></param>
         private void picRetour_Click(object sender, EventArgs e)
         {
-            this.Close();
+            _vue.form.Close();
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace JeuHoy.Presenter
         /// <param name="e"></param>
         private void picRetour_MouseHover(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.Hand;
+            _vue.form.Cursor = Cursors.Hand;
         }
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace JeuHoy.Presenter
         /// <param name="e"></param>
         private void picRetour_MouseLeave(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.Arrow;
+            _vue.form.Cursor = Cursors.Arrow;
         }
 
         /// <summary>

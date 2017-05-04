@@ -60,7 +60,7 @@ namespace JeuHoy.Model.BLL
                         _poidsSyn[0] += _cstApprentissage * (iVraieValeur - iValeurEstime);
                         for (int j = 1; j < _poidsSyn.Length; j++)
                         {
-                            _poidsSyn[j] += _cstApprentissage * (iVraieValeur - iValeurEstime) * (s.Skeleton.Joints[(JointType)j].Position.X + s.Skeleton.Joints[(JointType)j].Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
+                            _poidsSyn[j] += _cstApprentissage * (iVraieValeur - iValeurEstime) * (s.Skeleton.Joints[(JointType)j-1].Position.X + s.Skeleton.Joints[(JointType)j-1].Position.Y * CstApplication.KINECT_DISPLAY_WIDTH);
                         }
                     }
                 }

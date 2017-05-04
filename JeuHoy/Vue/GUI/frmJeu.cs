@@ -80,6 +80,20 @@ namespace JeuHoy.Vue
                 lblPoint.Text = value;
             }
         }
+
+        public string sTemps
+        {
+            get
+            {
+                return lblTemps.Text;
+            }
+
+            set
+            {
+                lblTemps.Text = value;
+            }
+        }
+
         private JouerSon _son = new JouerSon();
         private bool _finished = false;
 

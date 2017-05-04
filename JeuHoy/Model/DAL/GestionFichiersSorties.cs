@@ -46,18 +46,19 @@ namespace JeuHoy.Model.DAL
                         Y = 0
                     };
 
-                    for (int i = 0; i < 20; i++)
+                    for (int i = 0; i < 40; i++)
                     {
                         if (i % 2 == 0)
                         {
-                            position.X = float.Parse(sTabElement[i], CultureInfo.InvariantCulture.NumberFormat);
+                            position.X = float.Parse(sTabElement[i]);
                         }
                         else
                         {
-                            position.Y = float.Parse(sTabElement[i], CultureInfo.InvariantCulture.NumberFormat);
-                            Joint joint = new Joint{Position = position};
-                            skel.Joints[(JointType)(i/2)] = joint;
-                            if (i == 19)
+                            position.Y = float.Parse(sTabElement[i]);
+                            Joint joint = skel.Joints[(JointType)(i / 2)];
+                            joint.Position = position;
+                            skel.Joints[(JointType)(i / 2)] = joint;
+                            if (i == 39)
                             {
                                 CoordSkel coordskel = new CoordSkel(skel);
                                 coordskel.Reponse = Convert.ToInt32(sTabElement[sTabElement.Length - 1]);

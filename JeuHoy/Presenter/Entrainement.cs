@@ -27,7 +27,9 @@ namespace JeuHoy.Presenter
         private bool _isClosing = false;
         private GestionClassesPerceptrons _gcpAnalyseEcriture;
         private Skeleton _skeleton;
-        private SpeechRecognitionEngine speechEngine;
+        private SpeechRecognitionEngine _speechEngine;
+        private JouerMp3 _wmpIntro = new JouerMp3();
+
 
         public Entrainement(IVue vue)
         {
@@ -65,7 +67,7 @@ namespace JeuHoy.Presenter
 
                 if (null != ri)
                 {
-                    this.speechEngine = new SpeechRecognitionEngine(ri.Id);
+                    this._speechEngine = new SpeechRecognitionEngine(ri.Id);
                 }
 
                 var directions = new Choices();
@@ -76,12 +78,12 @@ namespace JeuHoy.Presenter
                 var gb = new GrammarBuilder { Culture = ri.Culture };
                 gb.Append(directions);
                 var g = new Grammar(gb);
-                speechEngine.LoadGrammar(g);
-                speechEngine.SpeechRecognized += SpeechRecognized;
-                speechEngine.SpeechRecognitionRejected += SpeechRejected;
-                speechEngine.SetInputToAudioStream(_sensor.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+                _speechEngine.LoadGrammar(g);
+                _speechEngine.SpeechRecognized += SpeechRecognized;
+                _speechEngine.SpeechRecognitionRejected += SpeechRejected;
+                _speechEngine.SetInputToAudioStream(_sensor.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
 
-                speechEngine.RecognizeAsync(RecognizeMode.Multiple);
+                _speechEngine.RecognizeAsync(RecognizeMode.Multiple);
                 // Fin voix
             }
 
@@ -97,7 +99,7 @@ namespace JeuHoy.Presenter
             ChargerFigure();
             _son.JouerSonAsync(@"./HoyContent/hoooy.wav");
 
-           
+
         }
 
         private RecognizerInfo GetKinectRecognizer()
@@ -265,6 +267,18 @@ namespace JeuHoy.Presenter
         {
             _isClosing = true;
             _gcpAnalyseEcriture.SauvegarderCoordonnees();
+            if (_sensor != null && _sensor.IsRunning)
+            {
+                _sensor.AudioSource.Stop();
+                _sensor.Stop();
+                _sensor = null;
+            }
+            if (null != _speechEngine)
+            {
+                _speechEngine.SpeechRecognized -= SpeechRecognized;
+                _speechEngine.SpeechRecognitionRejected -= SpeechRejected;
+                _speechEngine.RecognizeAsyncStop();
+            }
             _vue.FormEntrainement.Close();
         }
 
@@ -309,6 +323,18 @@ namespace JeuHoy.Presenter
         private void picRetour_Click(object sender, EventArgs e)
         {
             _gcpAnalyseEcriture.SauvegarderCoordonnees();
+            if (_sensor != null && _sensor.IsRunning)
+            {
+                _sensor.AudioSource.Stop();
+                _sensor.Stop();
+                _sensor = null;
+            }
+            if (null != _speechEngine)
+            {
+                _speechEngine.SpeechRecognized -= SpeechRecognized;
+                _speechEngine.SpeechRecognitionRejected -= SpeechRejected;
+                _speechEngine.RecognizeAsyncStop();
+            }
             _vue.FormEntrainement.Close();
         }
 

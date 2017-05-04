@@ -19,7 +19,6 @@ namespace JeuHoy.Vue
         public frmEntree()
         {
             InitializeComponent();
-            string fichierEntrainement = ConfigurationManager.AppSettings["FichierApp"];
 
             _wmpIntro.Open(@"./HoyContent/intro.mp3");
             _wmpIntro.Play(true);

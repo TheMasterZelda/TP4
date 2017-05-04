@@ -14,7 +14,6 @@ namespace JeuHoy.Vue
     {
         private Jeu _jeu;
 
-        public event EventHandler Fermeture;
         public event EventHandler TimerTick;
         public event EventHandler RetourClick;
         public event EventHandler RetourMouseHover;
@@ -55,19 +54,6 @@ namespace JeuHoy.Vue
             }
         }
 
-        public string sNbPosition
-        {
-            get
-            {
-                return lblNbPosition.Text;
-            }
-
-            set
-            {
-                lblNbPosition.Text = value;
-            }
-        }
-
         public string sPoints
         {
             get
@@ -94,33 +80,18 @@ namespace JeuHoy.Vue
             }
         }
 
-        private JouerSon _son = new JouerSon();
-        private bool _finished = false;
-
         /// <summary>
         /// Constructeur
         /// </summary>
         public frmJeu()
         {
             InitializeComponent();
-
-            tmrTemps.Tick += new EventHandler(timer_tick);
+            _jeu = new Jeu(this);
         }
 
-        private void timer_tick(object sender, EventArgs e)
+        private void tmrTemps_Tick(object sender, EventArgs e)
         {
-            int temps = Int32.Parse(lblTemps.Text);
-            if (temps > 0)
-            {
-                lblTemps.Text = (--temps).ToString();
-                _son.JouerSonAsync(@"./HoyContent/YES.wav");
-            }
-            else if (temps == 0 && !_finished)
-            {
-                picPositionAFaire.Image = Image.FromFile(@"./Resources/kim.png");
-                _son.JouerSonAsync(@"./HoyContent/riphugo.wav");
-                _finished = true;
-            }
+            TimerTick(sender, e);
         }
 
         /// <summary>
@@ -130,7 +101,7 @@ namespace JeuHoy.Vue
         /// <param name="e"></param>
         private void picRetour_Click(object sender, EventArgs e)
         {
-            this.Close();
+            RetourClick(sender, e);
         }
 
         /// <summary>
@@ -140,7 +111,7 @@ namespace JeuHoy.Vue
         /// <param name="e"></param>
         private void picRetour_MouseHover(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.Hand;
+            RetourMouseHover(sender, e);
         }
 
         /// <summary>
@@ -150,8 +121,7 @@ namespace JeuHoy.Vue
         /// <param name="e"></param>
         private void picRetour_MouseLeave(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.Arrow;
+            RetourMouseLeave(sender, e);
         }
-
     }
 }

@@ -111,6 +111,7 @@
             // 
             this.tmrTemps.Enabled = true;
             this.tmrTemps.Interval = 1000;
+            this.tmrTemps.Tick += new System.EventHandler(this.tmrTemps_Tick);
             // 
             // shapeContainer1
             // 

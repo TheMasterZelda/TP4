@@ -123,6 +123,30 @@ namespace JeuHoy.Model.BLL
         }
 
         /// <summary>
+        /// Test le perceptron avec de nouvelles coordonnées.
+        /// </summary>
+        /// <param name="coord">Les nouvelles coordonnées</param>
+        /// <returns>Retourne la liste des valeurs possibles du perceptron</returns>
+        public string TesterPerceptronJeu(Skeleton skel)
+        {
+            string resultat = "";
+
+            if (skel == null)
+                return null;
+
+            foreach (var p in _lstPerceptrons)
+            {
+                if (p.Value.TesterNeurone(skel))
+                    resultat += p.Key + "\t";
+            }
+
+            if (resultat == "")
+                resultat = null;
+
+            return resultat;
+        }
+
+        /// <summary>
         /// Obtient une liste des coordonées.
         /// </summary>
         /// <returns>Une liste des coordonées.</returns>

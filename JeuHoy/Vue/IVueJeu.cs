@@ -11,12 +11,10 @@ namespace JeuHoy.Vue
     public interface IVueJeu
     {
         string sPosition { get; set; }
-        string sNbPosition { get; set; }
         string sPoints { get; set; }
         string sTemps { get; set; }
         Image PositionAFaire { get; set; }
         Form form { get; }
-        event EventHandler Fermeture;
         event EventHandler TimerTick;
         event EventHandler RetourClick;
         event EventHandler RetourMouseHover;
